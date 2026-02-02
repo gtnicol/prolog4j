@@ -1,0 +1,31 @@
+/* file sort */
+
+%TODO use a predicate other than compare to do the comparison
+
+% sort(List, Sorted)
+
+%List is a partial list
+[predsort(compare,_,[]),instantiation_error].
+[predsort(compare,[_],[a]),instantiation_error].
+[predsort(compare,[a,b|_],[a,b]),instantiation_error].
+
+%List is neither a partial list nor a list
+[predsort(compare,a,[]),type_error(list, a)].
+[predsort(compare,foo(a),[]),type_error(list, foo(a))].
+[predsort(compare,1,[]),type_error(list, 1)].
+[predsort(compare,73.2,[]),type_error(list, 73.2)].
+[predsort(compare,0,[]),type_error(list, 0)].
+
+%Sorted is neither a partial list nor a list
+[predsort(compare,[],0),type_error(list, 0)].
+[predsort(compare,[],5),type_error(list, 5)].
+[predsort(compare,[],a),type_error(list, a)].
+[predsort(compare,[],6.8),type_error(list, 6.8)].
+
+%Examples
+[predsort(compare,[1, 2, 1, 8, 4], Sorted),[[Sorted <-- [1, 2, 4, 8]]]].
+[predsort(compare,[1.1, 2.2, 1.1, 8.8, 4.4], Sorted),[[Sorted <-- [1.1, 2.2, 4.4, 8.8]]]].
+[predsort(compare,[a, b, a, h, d], Sorted),[[Sorted <-- [a, b, d, h]]]].
+
+
+/* end of sort */

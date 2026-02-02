@@ -1,0 +1,347 @@
+# Prolog4J Predicate Reference
+
+This document lists all predicates implemented in Prolog4J, organized by ISO Prolog standard sections.
+
+## ISO Prolog Part 1 Predicates
+
+### 7.8 Control Constructs
+
+| Predicate | Description |
+|-----------|-------------|
+| `true/0` | Always succeeds |
+| `fail/0` | Always fails |
+| `!/0` | Cut - discards choice points up to cut parent |
+| `(',')/2` | Conjunction - both goals must succeed |
+| `(';')/2` | Disjunction - either goal succeeds |
+| `('->')/2` | If-then |
+| `call/1` | Call goal |
+| `call/2` | Call goal with one additional argument |
+| `call/3` | Call goal with two additional arguments |
+| `catch/3` | Catch exceptions |
+| `throw/1` | Throw exception |
+
+### 8.2 Term Unification
+
+| Predicate | Description |
+|-----------|-------------|
+| `(=)/2` | Unify two terms |
+| `unify_with_occurs_check/2` | Unify with occurs check |
+| `(\=)/2` | Terms are not unifiable |
+
+### 8.3 Type Testing
+
+| Predicate | Description |
+|-----------|-------------|
+| `var/1` | Term is an unbound variable |
+| `nonvar/1` | Term is not an unbound variable |
+| `atom/1` | Term is an atom |
+| `integer/1` | Term is an integer |
+| `float/1` | Term is a float |
+| `decimal/1` | Term is a decimal number |
+| `number/1` | Term is a number |
+| `atomic/1` | Term is atomic (atom or number) |
+| `compound/1` | Term is a compound term |
+| `callable/1` | Term is callable (atom or compound) |
+| `ground/1` | Term contains no variables |
+| `java_object/1` | Term is a Java object (NONISO) |
+
+### 8.4 Term Comparison
+
+| Predicate | Description |
+|-----------|-------------|
+| `(==)/2` | Terms are identical |
+| `(\==)/2` | Terms are not identical |
+| `(@<)/2` | Term is less than |
+| `(@=<)/2` | Term is less than or equal |
+| `(@>)/2` | Term is greater than |
+| `(@>=)/2` | Term is greater than or equal |
+
+### 8.5 Term Creation and Decomposition
+
+| Predicate | Description |
+|-----------|-------------|
+| `functor/3` | Get/construct functor and arity |
+| `arg/3` | Access argument of compound term |
+| `(=..)/2` | Univ - convert between term and list |
+| `copy_term/2` | Copy term with fresh variables |
+| `term_variables/2` | Get list of variables in term |
+
+### 8.6-8.7 Arithmetic
+
+| Predicate | Description |
+|-----------|-------------|
+| `(is)/2` | Evaluate arithmetic expression |
+| `(=:=)/2` | Arithmetic equal |
+| `(=\=)/2` | Arithmetic not equal |
+| `(<)/2` | Less than |
+| `(=<)/2` | Less than or equal |
+| `(>)/2` | Greater than |
+| `(>=)/2` | Greater than or equal |
+
+**Arithmetic Functions:**
+`+`, `-`, `*`, `/`, `//`, `mod`, `rem`, `abs`, `sign`, `min`, `max`,
+`gcd`, `sin`, `cos`, `tan`, `asin`, `acos`, `atan`, `atan2`,
+`exp`, `log`, `sqrt`, `ceiling`, `floor`, `round`, `truncate`,
+`float_integer_part`, `float_fractional_part`, `float`,
+`(^)`, `(**)`, `random`, `xor`, `(/\)`, `(\/)`, `(\)`, `(<<)`, `(>>)`
+
+### 8.8-8.9 Clause Retrieval and Database
+
+| Predicate | Description |
+|-----------|-------------|
+| `clause/2` | Retrieve clause |
+| `current_predicate/1` | Check if predicate exists |
+| `asserta/1` | Assert clause at beginning |
+| `assertz/1` | Assert clause at end |
+| `assert/1` | Alias for assertz/1 |
+| `retract/1` | Remove first matching clause |
+| `abolish/1` | Remove all clauses for predicate |
+
+### 8.10 All Solutions
+
+| Predicate | Description |
+|-----------|-------------|
+| `findall/3` | Find all solutions |
+| `bagof/3` | Find all solutions with grouping |
+| `setof/3` | Find unique sorted solutions |
+
+### 8.11 Stream Selection and Control
+
+| Predicate | Description |
+|-----------|-------------|
+| `current_input/1` | Get current input stream |
+| `current_output/1` | Get current output stream |
+| `set_input/1` | Set current input stream |
+| `set_output/1` | Set current output stream |
+| `open/3` | Open stream (simple form) |
+| `open/4` | Open stream with options |
+| `close/1` | Close stream (simple form) |
+| `close/2` | Close stream with options |
+| `flush_output/0` | Flush current output |
+| `flush_output/1` | Flush specified stream |
+| `stream_property/2` | Query stream properties |
+| `at_end_of_stream/0` | Check if at end of current input |
+| `at_end_of_stream/1` | Check if at end of stream |
+| `set_stream_position/2` | Set stream position |
+
+### 8.12 Character Input/Output
+
+| Predicate | Description |
+|-----------|-------------|
+| `get_char/1` | Read character from current input |
+| `get_char/2` | Read character from stream |
+| `get_code/1` | Read character code from current input |
+| `get_code/2` | Read character code from stream |
+| `peek_char/1` | Peek character from current input |
+| `peek_char/2` | Peek character from stream |
+| `peek_code/1` | Peek character code from current input |
+| `peek_code/2` | Peek character code from stream |
+| `put_char/1` | Write character to current output |
+| `put_char/2` | Write character to stream |
+| `put_code/1` | Write character code to current output |
+| `put_code/2` | Write character code to stream |
+| `nl/0` | Write newline to current output |
+| `nl/1` | Write newline to stream |
+
+### 8.13 Byte Input/Output
+
+| Predicate | Description |
+|-----------|-------------|
+| `get_byte/1` | Read byte from current input |
+| `get_byte/2` | Read byte from stream |
+| `peek_byte/1` | Peek byte from current input |
+| `peek_byte/2` | Peek byte from stream |
+| `put_byte/1` | Write byte to current output |
+| `put_byte/2` | Write byte to stream |
+
+### 8.14 Term Input/Output
+
+| Predicate | Description |
+|-----------|-------------|
+| `read_term/2` | Read term from current input |
+| `read_term/3` | Read term from stream with options |
+| `read/1` | Read term from current input |
+| `read/2` | Read term from stream |
+| `write_term/2` | Write term to current output |
+| `write_term/3` | Write term to stream with options |
+| `write/1` | Write term to current output |
+| `write/2` | Write term to stream |
+| `writeq/1` | Write term quoted |
+| `writeq/2` | Write term quoted to stream |
+| `write_canonical/1` | Write term in canonical form |
+| `write_canonical/2` | Write term in canonical form to stream |
+| `format/2` | Formatted output |
+| `format/3` | Formatted output to stream |
+| `op/3` | Define operator |
+| `current_op/3` | Query operators |
+| `char_conversion/2` | Define character conversion (not applied during reading) |
+| `current_char_conversion/2` | Query character conversions |
+
+### 8.15 Logic and Control
+
+| Predicate | Description |
+|-----------|-------------|
+| `(\+)/1` | Negation as failure |
+| `not/1` | Alias for \+/1 |
+| `fail_if/1` | Alias for \+/1 |
+| `once/1` | Execute goal at most once |
+| `repeat/0` | Infinite choice point |
+
+### 8.16 Atomic Term Processing
+
+| Predicate | Description |
+|-----------|-------------|
+| `atom_length/2` | Get atom length |
+| `atom_concat/3` | Concatenate atoms |
+| `sub_atom/5` | Extract sub-atom |
+| `atom_chars/2` | Convert atom to/from character list |
+| `atom_codes/2` | Convert atom to/from code list |
+| `char_code/2` | Get character code |
+| `number_chars/2` | Convert number to/from character list |
+| `number_codes/2` | Convert number to/from code list |
+
+### 8.17 Implementation Defined Hooks
+
+| Predicate | Description |
+|-----------|-------------|
+| `set_prolog_flag/2` | Set Prolog flag |
+| `current_prolog_flag/2` | Query Prolog flag |
+| `halt/0` | Exit with code 0 |
+| `halt/1` | Exit with specified code |
+
+## Directives
+
+| Directive | Description |
+|-----------|-------------|
+| `dynamic/1` | Declare predicate as dynamic |
+| `multifile/1` | Allow predicate in multiple files |
+| `discontiguous/1` | Allow non-contiguous clauses |
+| `op/3` | Define operator |
+| `char_conversion/2` | Define character conversion |
+| `initialization/1` | Add initialization goal |
+| `include/1` | Include another file |
+| `ensure_loaded/1` | Load file if not already loaded |
+| `set_prolog_flag/2` | Set Prolog flag |
+
+## Non-ISO Extensions
+
+### DCG (Definite Clause Grammars)
+
+| Predicate | Description |
+|-----------|-------------|
+| `phrase/2` | Parse with DCG rule |
+| `phrase/3` | Parse with DCG rule and remainder |
+
+### List Operations (ext.list.pro)
+
+| Predicate | Description |
+|-----------|-------------|
+| `append/3` | Append lists |
+| `member/2` | List membership |
+| `length/2` | List length |
+| `reverse/2` | Reverse list |
+| `nth0/3` | Nth element (0-indexed) |
+| `nth1/3` | Nth element (1-indexed) |
+| `last/2` | Last element |
+| `msort/2` | Merge sort (stable) |
+| `sort/2` | Sort and remove duplicates |
+| `keysort/2` | Sort by keys |
+| `maplist/2-5` | Apply predicate to list elements |
+| `include/3` | Filter list |
+| `exclude/3` | Exclude from list |
+| `foldl/4-6` | Fold left |
+| `foldr/4-6` | Fold right |
+| `sumlist/2` | Sum of list |
+| `max_list/2` | Maximum of list |
+| `min_list/2` | Minimum of list |
+
+### Date/Time (ext.datetime.pro)
+
+| Predicate | Description |
+|-----------|-------------|
+| `get_time/1` | Get current timestamp |
+| `stamp_date_time/3` | Convert timestamp to date/time |
+| `date_time_stamp/2` | Convert date/time to timestamp |
+| `date_time_value/3` | Extract date/time component |
+| `format_time/3` | Format time |
+| `format_time/4` | Format time with locale |
+| `parse_time/2` | Parse time string |
+| `parse_time/3` | Parse time with format |
+
+### Java Integration (ext.java.pro)
+
+| Predicate | Description |
+|-----------|-------------|
+| `java_to_string/2` | Convert Java object to string |
+| `java_classname/2` | Get class name of Java object |
+
+### UUID (ext.uuid.pro)
+
+| Predicate | Description |
+|-----------|-------------|
+| `uuid/1` | Generate random UUID |
+| `uuid/2` | Generate UUID with options |
+| `uuid_compare/3` | Compare UUIDs |
+| `uuid_version/2` | Get UUID version |
+| `uuid_variant/2` | Get UUID variant |
+
+### Debugging (ext.debug.pro)
+
+| Predicate | Description |
+|-----------|-------------|
+| `trace/0` | Enable tracing |
+| `notrace/0` | Disable tracing |
+| `tracing/0` | Check if tracing |
+| `spy/1` | Set spy point |
+| `nospy/1` | Remove spy point |
+| `nospyall/0` | Remove all spy points |
+
+### Meta Predicates (ext.meta.pro)
+
+| Predicate | Description |
+|-----------|-------------|
+| `setup_call_catcher_cleanup/4` | Exception-safe setup/cleanup |
+| `setup_call_cleanup/3` | Simplified setup/cleanup |
+
+### Database Extensions (ext.database.pro)
+
+| Predicate | Description |
+|-----------|-------------|
+| `retractall/1` | Remove all matching clauses |
+| `copy_term/3` | Copy term with goal |
+| `ground/1` | Check if term is ground |
+
+### Miscellaneous (ext.misc.pro)
+
+| Predicate | Description |
+|-----------|-------------|
+| `listing/0` | List all predicates |
+| `listing/1` | List specific predicate |
+| `stacktrace/1` | Get stack trace |
+| `compare/3` | Compare terms |
+| `current_functor/2` | Query functors |
+| `repeat/1` | Repeat N times |
+| `consult/1` | Load Prolog file |
+| `succ/2` | Successor |
+| `plus/3` | Addition relation |
+| `between/3` | Generate integers in range |
+| `forall/2` | Universal quantification |
+| `aggregate_all/3` | Aggregate all solutions |
+
+### Dialogs (ext.dialogs.pro)
+
+| Predicate | Description |
+|-----------|-------------|
+| `open_file_dialog/3` | Show file open dialog |
+| `save_file_dialog/3` | Show file save dialog |
+| `message_dialog/2` | Show message dialog |
+| `confirm_dialog/2` | Show confirmation dialog |
+
+## Known Issues
+
+1. **findall/3**: type_error handling may fail (Bug #30568)
+2. **arg/3**: Variable unification inside compound terms may fail (Bug #30335)
+3. **char_conversion/2**: Accepted but conversion not applied during reading
+4. **Unicode**: May cause parser infinite loop (Bug #30780)
+
+See ANALYSIS.md for detailed bug descriptions and workarounds.

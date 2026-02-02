@@ -1,0 +1,35 @@
+/* file findall */
+
+[findall(X,(X=1 ; X=2),S),[[S <-- [1,2]]]].
+
+[findall(X+Y,(X=1),S),[[S <-- [1+_]]]].
+
+[findall(X,fail,L),[[L <-- []]]].
+
+[findall(X,(X=1 ; X=1),S),[[S <-- [1,1]]]].
+
+[findall(X,(X=2 ; X=1),[1,2]), failure].
+
+[findall(X,(X=1 ; X=2),[X,Y]), [[X <-- 1, Y <-- 2]]].
+
+[findall(X,Goal,S),instantiation_error]. % Culprit Goal
+
+[findall(X,4,S),type_error(callable, 4)].
+
+[findall(X,0.1,S),type_error(callable, 0.1)].
+
+[findall(X,call(1),S),type_error(callable, 1)].
+
+%Instances is neither a partial list nor a list - type error(list, Instances).
+[findall(X,true,a),type_error(list, a)].
+[findall(X,true,a/3),type_error(list, a/3)].
+[findall(X,true,foo(a,b)),type_error(list, foo(a,b))].
+
+[findall(X,sum_list([], 0),S),[[S <-- [_]]]].
+
+[findall(foo(X,Y),(foo(X,b)=foo(a,b), foo(Y,c)=foo(b,c)),S),[[S <-- [foo(a,b)]]]].
+
+[findall(X,(foo(Y,r,c)=foo(a,r,c);foo(k,Y,b)=foo(k,c,b)),S),[[S <--[_,_]]]].
+
+/* end of findall */
+

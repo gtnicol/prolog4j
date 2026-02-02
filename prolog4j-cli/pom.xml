@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.github.gtnicol</groupId>
+        <artifactId>prolog4j-parent</artifactId>
+        <version>0.1.0</version>
+    </parent>
+
+    <artifactId>prolog4j-cli</artifactId>
+    <packaging>jar</packaging>
+
+    <name>Prolog4J CLI</name>
+    <description>Command-line REPL for Prolog4J</description>
+
+    <dependencies>
+        <!-- Prolog4J Core -->
+        <dependency>
+            <groupId>io.github.gtnicol</groupId>
+            <artifactId>prolog4j</artifactId>
+        </dependency>
+
+        <!-- Picocli for command-line parsing -->
+        <dependency>
+            <groupId>info.picocli</groupId>
+            <artifactId>picocli</artifactId>
+        </dependency>
+
+        <!-- JLine3 for REPL line editing and history -->
+        <dependency>
+            <groupId>org.jline</groupId>
+            <artifactId>jline</artifactId>
+        </dependency>
+
+        <!-- Logback Classic (SLF4J implementation) -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- JUnit 5 for unit testing -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <testResources>
+            <testResource>
+                <directory>${project.basedir}/../src/test/resources</directory>
+            </testResource>
+        </testResources>
+
+        <plugins>
+            <!-- JAR Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>gnu.prolog.cli.GoalRunner</mainClass>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                        </manifest>
+                        <manifestEntries>
+                            <Specification-Title>${project.name}</Specification-Title>
+                            <Specification-Version>${project.version}</Specification-Version>
+                            <Implementation-Title>${project.name}</Implementation-Title>
+                            <Implementation-Version>${project.version}</Implementation-Version>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <!-- Shade Plugin for creating fat JAR with all dependencies -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>gnu.prolog.cli.GoalRunner</mainClass>
+                                    <manifestEntries>
+                                        <Specification-Title>${project.name}</Specification-Title>
+                                        <Specification-Version>${project.version}</Specification-Version>
+                                        <Implementation-Title>${project.name}</Implementation-Title>
+                                        <Implementation-Version>${project.version}</Implementation-Version>
+                                    </manifestEntries>
+                                </transformer>
+                            </transformers>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Exec Maven Plugin for running Prolog tests -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <executions>
+                    <!-- Vanilla test suite -->
+                    <execution>
+                        <id>test-vanilla</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skipTests}</skip>
+                            <executable>java</executable>
+                            <workingDirectory>${project.basedir}/../src/test/resources/vanilla</workingDirectory>
+                            <arguments>
+                                <argument>-classpath</argument>
+                                <classpath/>
+                                <argument>gnu.prolog.cli.GoalRunner</argument>
+                                <argument>--once</argument>
+                                <argument>gnuprologjava.pl</argument>
+                                <argument>validate</argument>
+                            </arguments>
+                            <outputFile>${project.build.directory}/test-vanilla.out</outputFile>
+                        </configuration>
+                    </execution>
+                    <!-- Inria test suite -->
+                    <execution>
+                        <id>test-inria</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skipTests}</skip>
+                            <executable>java</executable>
+                            <workingDirectory>${project.basedir}/../src/test/resources/inriasuite</workingDirectory>
+                            <arguments>
+                                <argument>-classpath</argument>
+                                <classpath/>
+                                <argument>gnu.prolog.cli.GoalRunner</argument>
+                                <argument>--once</argument>
+                                <argument>--threads=${test.concurrency.threads}</argument>
+                                <argument>--iterations=${test.concurrency.iterations}</argument>
+                                <argument>inriasuite.pl</argument>
+                                <argument>run_all_tests</argument>
+                            </arguments>
+                            <outputFile>${project.build.directory}/test-inria.out</outputFile>
+                        </configuration>
+                    </execution>
+                    <!-- Validate Vanilla test results -->
+                    <execution>
+                        <id>validate-vanilla</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skipTests}</skip>
+                            <executable>java</executable>
+                            <arguments>
+                                <argument>-classpath</argument>
+                                <classpath/>
+                                <argument>gnu.prolog.test.TestResultValidator</argument>
+                                <argument>vanilla</argument>
+                                <argument>${project.build.directory}/test-vanilla.out</argument>
+                            </arguments>
+                            <classpathScope>test</classpathScope>
+                            <successCodes>
+                                <successCode>0</successCode>
+                            </successCodes>
+                        </configuration>
+                    </execution>
+                    <!-- Validate Inria test results -->
+                    <execution>
+                        <id>validate-inria</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skipTests}</skip>
+                            <executable>java</executable>
+                            <arguments>
+                                <argument>-classpath</argument>
+                                <classpath/>
+                                <argument>gnu.prolog.test.TestResultValidator</argument>
+                                <argument>inria</argument>
+                                <argument>${project.build.directory}/test-inria.out</argument>
+                                <argument>${project.basedir}/../test-baseline-inria.txt</argument>
+                            </arguments>
+                            <classpathScope>test</classpathScope>
+                            <successCodes>
+                                <successCode>0</successCode>
+                            </successCodes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

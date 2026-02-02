@@ -1,0 +1,9 @@
+/*UNICODE
+/* file atom */
+
+[atom(joːgɑ), success].
+[atom(â(é)), failure].
+[atom(Kαλημέρα), failure].
+[atom(κόσμε), success].
+
+/* end of atom */

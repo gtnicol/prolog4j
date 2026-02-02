@@ -1,0 +1,77 @@
+0.3.0 2026-02-01
+   Major modernization release targeting Java 21.
+
+   Build System:
+       Migrated from Ant to Maven build system
+       Added comprehensive JUnit 5 test suite (364 tests)
+       Added automatic test validation for Vanilla and Inria suites
+
+   Java Modernization:
+       Updated from Java 6 to Java 21
+       Converted 198 of 202 instanceof checks to pattern matching (98% reduction)
+       Modernized core VM with switch expressions
+           - Evaluate.java: 67% instanceof reduction
+           - InterpretedByteCode.java: 96% instanceof reduction
+           - InterpretedCodeCompiler.java: 63% instanceof reduction
+       Created PrologStack<T> generic class for cleaner stack management
+       Replaced raw array fields with typed stacks (backtrack, vars, undo)
+       Added a CLI/repl
+
+   Bug Fixes:
+       Fixed resource leaks in Environment.open() for file streams
+       Fixed potential IndexOutOfBoundsException in Interpreter.addVariableUndo()
+       Fixed potential IndexOutOfBoundsException in InterpretedCodeCompiler cut position methods
+       Fixed missing term argument in io/Predicates instantiation error
+       Fixed compiler StackOverflowError by refactoring UnicodeWriter to use Character.getType()
+
+   Outstanding bugs from previous versions remain:
+       #30568 findall type_error tests fail
+       #30335 arg/3 unification of variables inside compound terms
+       #30630 Potential deadlock with multithreaded access
+       #30780 Unicode input may cause parser infinite loop
+
+0.2.5 2010-07-28
+   Conforms to ISO/IEC DIS 13211-1 : 1995 bar two minor bugs.
+   There is now a (texinfo) manual and the readme.txt has been updated.
+   The demo package now contains an example of the use of the API.
+   The public key of the key signing key is in the sources.
+   Term classes now have working .toString() functions (which use TermWriter.toString(Term))
+   The Inria test suite provides an easily extensible test suite for testing standards 
+     compliance.
+   This supplements the vanilla test suite both of which can be found here: http://pauillac.inria.fr/~deransar/prolog/suites.html
+   NONISO features added:
+       ensure_loaded/1 predicate can be used anywhere
+       If ':- term' is used and term is not a directive then this will be treated as 
+         ':- intiailization(term)'.
+       random(L) predicate evaluates to a random number i such that 0 =< i < L
+   GNU Prolog for Java is now licensed under the LGPLv3 rather than the LGPLv2.
+   Interpreter's context methods have been deprecated.
+   The source now includes gnu.getopt
+   The Interpreter#runOnce(Term) method added to simplify the case where the
+   user only wishes to get the first answer from Prolog.
+   Added NumericTerm as an abstract parent of FloatTerm and IntegerTerm
+   Two outstanding bugs in standards compliance are:
+       #30568 (inria tests on findall's throwing of type_errors fails) and
+       #30335 (inria tests on arg's unification of variables inside the compound term fail)
+   Other bugs
+       #30630 Deadlock may occur if multiple threads operate on the same environment
+       #30780 Unicode input breaks the parser (it gets stuck in an infinite loop).
+0.2.x
+   Michiel Hendriks wrote many additional features and added support for many more 
+   predicates as well as doing a lot of work towards ISO Prolog part 1 compliance.
+   This includes: get_time/1, stamp_date_time/3, date_time_stamp/2, date_time_value/3,
+   format_time/3, format_time/4, parse_time/2, parse_time/3, trace/0, notrace/0,
+   tracing/0, spy/2, nospy/1, nospyall/0, various predicates for dialogs,
+   java_to_string/2, java_classname/2, listing/0, listing/1, compare/3, stacktrace/1,
+   current_functor/2, uuid/1, uuid/2, uuid_compare/3, uuid_version/2, uuid_variant/2
+0.2.0 2009-03-04
+   Various changes, bug fixes and additions.
+   It now conforms to the "vanilla" test suite (with a few minor changes to some tests).
+   All ISO Prolog predicates are supported. char_conversion is implemented but not used.
+   Added support for tracing/spying predicates
+0.1.0 2000-11-12 const
+   Initial CVS release
+0.?.?
+   - A suite runner was updated. Temporary files created by suite
+     were removed from cvs.
+   - "-once" argument was added to goal runner.

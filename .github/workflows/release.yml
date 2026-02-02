@@ -1,0 +1,66 @@
+name: Release to Maven Central
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+          server-id: central
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Validate version matches pom.xml
+        run: |
+          POM_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          TAG_VERSION=${{ steps.version.outputs.VERSION }}
+          echo "POM version: $POM_VERSION"
+          echo "Tag version: $TAG_VERSION"
+          if [ "$POM_VERSION" != "$TAG_VERSION" ]; then
+            echo "ERROR: Tag version ($TAG_VERSION) does not match pom.xml version ($POM_VERSION)"
+            echo "Please ensure the version in pom.xml matches the tag before releasing."
+            exit 1
+          fi
+          echo "Version validation passed!"
+
+      - name: Build and verify
+        run: mvn -B clean verify
+
+      - name: Publish prolog4j to Maven Central
+        run: mvn -B deploy -Prelease -DskipTests -pl prolog4j
+        env:
+          MAVEN_USERNAME: ${{ secrets.CENTRAL_TOKEN_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.CENTRAL_TOKEN_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Release ${{ steps.version.outputs.VERSION }}
+          generate_release_notes: true
+          files: |
+            prolog4j/target/prolog4j-${{ steps.version.outputs.VERSION }}.jar
+            prolog4j/target/prolog4j-${{ steps.version.outputs.VERSION }}-javadoc.jar
+            prolog4j/target/prolog4j-${{ steps.version.outputs.VERSION }}-sources.jar
+            prolog4j-cli/target/prolog4j-cli-${{ steps.version.outputs.VERSION }}.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
