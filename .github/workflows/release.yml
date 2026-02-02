@@ -63,4 +63,4 @@ jobs:
             prolog4j/target/prolog4j-${{ steps.version.outputs.VERSION }}-sources.jar
             prolog4j-cli/target/prolog4j-cli-${{ steps.version.outputs.VERSION }}.jar
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
