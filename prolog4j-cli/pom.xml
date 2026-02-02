@@ -7,7 +7,7 @@
     <parent>
         <groupId>io.github.gtnicol</groupId>
         <artifactId>prolog4j-parent</artifactId>
-        <version>0.1.1</version>
+        <version>0.1.2</version>
     </parent>
 
     <artifactId>prolog4j-cli</artifactId>

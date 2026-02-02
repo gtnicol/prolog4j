@@ -6,7 +6,7 @@
 
     <groupId>io.github.gtnicol</groupId>
     <artifactId>prolog4j-parent</artifactId>
-    <version>0.1.1</version>
+    <version>0.1.2</version>
     <packaging>pom</packaging>
 
     <name>Prolog4J Parent</name>
