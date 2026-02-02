@@ -7,7 +7,7 @@
     <parent>
         <groupId>io.github.gtnicol</groupId>
         <artifactId>prolog4j-parent</artifactId>
-        <version>0.1.0</version>
+        <version>0.1.1</version>
     </parent>
 
     <artifactId>prolog4j</artifactId>
@@ -15,6 +15,29 @@
 
     <name>Prolog4J</name>
     <description>ISO Prolog standard (part 1) implementation in Java, designed as an embeddable library for Java applications.</description>
+    <url>https://github.com/gtnicol/prolog4j</url>
+
+    <licenses>
+        <license>
+            <name>GNU Lesser General Public License v3.0</name>
+            <url>https://www.gnu.org/licenses/lgpl-3.0.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>gtnicol</id>
+            <name>Gavin Nicol</name>
+            <url>https://github.com/gtnicol</url>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/gtnicol/prolog4j.git</connection>
+        <developerConnection>scm:git:ssh://github.com:gtnicol/prolog4j.git</developerConnection>
+        <url>https://github.com/gtnicol/prolog4j/tree/main</url>
+    </scm>
 
     <dependencies>
         <!-- SLF4J Logging API -->
@@ -149,6 +172,31 @@
             <id>release</id>
             <build>
                 <plugins>
+                    <!-- Flatten POM to resolve dependency versions and remove parent reference -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>flatten-maven-plugin</artifactId>
+                        <configuration>
+                            <flattenMode>ossrh</flattenMode>
+                            <flattenedPomFilename>flattened-pom.xml</flattenedPomFilename>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>flatten</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>flatten</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>flatten-clean</id>
+                                <phase>clean</phase>
+                                <goals>
+                                    <goal>clean</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <!-- GPG Signing -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>

@@ -4,6 +4,8 @@ build
 *.bin
 
 dependency-reduced-pom.xml
+flattened-pom.xml
+.flattened-pom.xml
 
 # AI kibble
 CLAUDE.md

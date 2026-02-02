@@ -6,7 +6,7 @@
 
     <groupId>io.github.gtnicol</groupId>
     <artifactId>prolog4j-parent</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
     <packaging>pom</packaging>
 
     <name>Prolog4J Parent</name>
@@ -72,6 +72,7 @@
         <maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
         <maven-gpg-plugin.version>3.1.0</maven-gpg-plugin.version>
         <central-publishing-plugin.version>0.6.0</central-publishing-plugin.version>
+        <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
 
         <!-- Test configuration -->
         <test.concurrency.threads>1</test.concurrency.threads>
@@ -259,6 +260,13 @@
                     <groupId>org.sonatype.central</groupId>
                     <artifactId>central-publishing-maven-plugin</artifactId>
                     <version>${central-publishing-plugin.version}</version>
+                </plugin>
+
+                <!-- Flatten Maven Plugin -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>${flatten-maven-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
